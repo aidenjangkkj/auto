@@ -1,29 +1,20 @@
-name: 🌱 Auto Plant GitHub Grass
+name: Auto Grass
+
 on:
   schedule:
-    - cron: '0 0 * * *'  # UTC 기준 매일 00:00 → KST 오전 9시
+    - cron: '0 0 * * *' # 매일 자정 실행 (UTC 기준)
+  workflow_dispatch:
 
 jobs:
-  plant-grass:
+  plant_grass:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
-
-      - name: Set Git user
+      - uses: actions/checkout@v4
+      - name: Plant Grass
         run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-
-      - name: Append date to grass.txt
-        run: |
-          echo "$(date +'%Y-%m-%d %H:%M:%S')" >> grass.txt
-
-      - name: Commit and push changes
-        run: |
+          echo "$(date +'%Y-%m-%d') Grass planted!" >> grass.txt
+          git config user.name 'github-actions[bot]'
+          git config user.email 'github-actions[bot]@users.noreply.github.com'
           git add grass.txt
-          git commit -m "chore: auto plant grass on $(date +'%Y-%m-%d')" || echo "No changes to commit"
-          git push
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          git commit -m "chore: auto plant grass on $(date +'%Y-%m-%d')"
+          git push https://x-access-token:${{ secrets.PERSONAL_ACCESS_TOKEN }}@github.com/aidenjangkkj/auto.git main
