@@ -1,6 +1,6 @@
 name: 🌱 Auto Plant GitHub Grass
-
 on:
+  workflow_dispatch:
   schedule:
     - cron: '0 0 * * *'  # UTC 기준 매일 00:00 → KST 오전 9시
 
